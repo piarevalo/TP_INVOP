@@ -10,8 +10,8 @@ fixture = fixture()
 # Diccionario de equipos
 equipos = {
     1: 'argentina', 
-    2: 'uruguay', 
-    3: 'brasil', 
+    2: 'brasil', 
+    3: 'uruguay', 
     4: 'colombia', 
     5: 'ecuador', 
     6: 'chile', 
