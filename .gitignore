@@ -1,2 +1,7 @@
 # Ignorar carpetas específicas
 __pycache__/
+Testeos/
+
+#Archivos
+Fuentes.py
+Vitacora.md
