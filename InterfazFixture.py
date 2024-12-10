@@ -23,7 +23,7 @@ equipos = {
 
 # Cantidad de recuadros por fila y tamaño de recuadro
 recuadros_por_fila = 6
-tamaño_recuadro = (180, 50)  # Ancho y alto de cada recuadro
+tamaño_recuadro = (150, 30)  # Ancho y alto de cada recuadro
 fuente = "Calibri Light"
 
 partidos_por_equipo = {equipo: [] for equipo in equipos.keys()}
@@ -32,7 +32,7 @@ for fecha, partidos in fixture.items():
         partidos_por_equipo[local].append((fecha, "local", visitante))
         partidos_por_equipo[visitante].append((fecha, "visitante", local))
 
-def cargar_bandera(nombre_pais, w=50, h=35):
+def cargar_bandera(nombre_pais, w=40, h=25):
     imagen = Image.open(f"flags/{nombre_pais}.png")
     imagen = imagen.resize((w, h), Image.LANCZOS)
     return ImageTk.PhotoImage(imagen)
@@ -150,7 +150,7 @@ for i, (fecha, partidos) in enumerate(fixture.items(), 1):
 # Ajustar el tamaño inicial de la ventana para ver la primera fila completa
 root.update_idletasks()
 width = min(canvas.bbox("all")[2], root.winfo_screenwidth())
-root.geometry(f"{width}x500")
+root.geometry(f"{width}x800")
 
 # Iniciar la interfaz
 root.mainloop()
