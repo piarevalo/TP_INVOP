@@ -1,4 +1,4 @@
 Testeos
 Vitacora.md
 **/__pycache__/
-test.txt
+**/test.txt
