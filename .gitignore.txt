@@ -1,2 +1,3 @@
 Testeos
 Vitacora.md
+**/__pycache__/
