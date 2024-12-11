@@ -71,13 +71,15 @@ def back_to_back(fixture):
 def esquema(fixture) :
     if(mirrored(fixture)) :
         print("Mirrored Scheme")
-    if(french(fixture)) :
+    elif(french(fixture)) :
         print("French Scheme")
-    if(english(fixture)) :
+    elif(english(fixture)) :
         print("English Scheme")
-    if(inverted(fixture)) :
+    elif(inverted(fixture)) :
         print("Inverted Scheme")
-    if(back_to_back(fixture)) :
+    elif(back_to_back(fixture)) :
         print("Back-to-Back Scheme")
+    else:
+        print("No corresponde a ningun esquema")
     return 0
     
