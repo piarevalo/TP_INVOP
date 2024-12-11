@@ -1,10 +1,9 @@
 import tkinter as tk
 from PIL import Image, ImageTk
-import numpy as np
 from ArmadoFixture import fixture
 from chequeos import esquema
 
-#Funcion para pasarle un fixture por consola (Estilo SCIP)
+# Funcion para pasarle un fixture por consola (Estilo SCIP)
 fixture = fixture()
 esquema(fixture)
 
@@ -22,11 +21,9 @@ equipos = {
     10: 'venezuela'
 }
 
-ajuste = 0.5
-
 # Cantidad de recuadros por fila y tamaño de recuadro
 recuadros_por_fila = 6
-tamaño_recuadro = (int(170*ajuste), int(50*ajuste))  # Ancho y alto de cada recuadro
+tamaño_recuadro = (100, 25)  # Ancho y alto de cada recuadro reducido
 fuente = "Calibri Light"
 
 partidos_por_equipo = {equipo: [] for equipo in equipos.keys()}
@@ -35,7 +32,7 @@ for fecha, partidos in fixture.items():
         partidos_por_equipo[local].append((fecha, "local", visitante))
         partidos_por_equipo[visitante].append((fecha, "visitante", local))
 
-def cargar_bandera(nombre_pais, w=int(50*ajuste), h=int(32*ajuste)):
+def cargar_bandera(nombre_pais, w=30, h=18):
     imagen = Image.open(f"flags/{nombre_pais}.png")
     imagen = imagen.resize((w, h), Image.LANCZOS)
     return ImageTk.PhotoImage(imagen)
@@ -65,31 +62,29 @@ def mostrar_partidos(equipo_id):
 
     for fecha, condicion, rival_id in partidos:
         # Marco para cada partido
-        marco_partido = tk.Frame(scrollable_frame_partidos, padx=10, pady=5)
-        marco_partido.pack(fill="x", pady=5)
+        marco_partido = tk.Frame(scrollable_frame_partidos, padx=5, pady=2)
+        marco_partido.pack(fill="x", pady=2)
 
         # Si es local, mostrar bandera del equipo seleccionado a la izquierda
         if condicion == "local":
-            bandera_equipo = cargar_bandera(equipos[equipo_id], 30, 20)
-            bandera_rival = cargar_bandera(equipos[rival_id], 30, 20)
-            tk.Label(marco_partido, text=f"Fecha {fecha}", font=(fuente, 10)).pack(side="left", padx=5)
-            tk.Label(marco_partido, image=bandera_equipo).pack(side="left", padx=5)
-            tk.Label(marco_partido, text="vs", font=(fuente, 10, "bold")).pack(side="left", padx=5)
-            tk.Label(marco_partido, image=bandera_rival).pack(side="left", padx=5)
-        # Si es visitante, mostrar bandera del equipo seleccionado a la derecha
+            bandera_equipo = cargar_bandera(equipos[equipo_id], 25, 15)
+            bandera_rival = cargar_bandera(equipos[rival_id], 25, 15)
+            tk.Label(marco_partido, text=f"Fecha {fecha}", font=(fuente, 9)).pack(side="left", padx=5)
+            tk.Label(marco_partido, image=bandera_equipo).pack(side="left", padx=3)
+            tk.Label(marco_partido, text="vs", font=(fuente, 9, "bold")).pack(side="left", padx=3)
+            tk.Label(marco_partido, image=bandera_rival).pack(side="left", padx=3)
         else:
-            bandera_rival = cargar_bandera(equipos[rival_id], 30, 20)
-            bandera_equipo = cargar_bandera(equipos[equipo_id], 30, 20)
-            tk.Label(marco_partido, text=f"Fecha {fecha}", font=(fuente, 10)).pack(side="left", padx=5)
-            tk.Label(marco_partido, image=bandera_rival).pack(side="left", padx=5)
-            tk.Label(marco_partido, text="vs", font=(fuente, 10, "bold")).pack(side="left", padx=5)
-            tk.Label(marco_partido, image=bandera_equipo).pack(side="left", padx=5)
+            bandera_rival = cargar_bandera(equipos[rival_id], 25, 15)
+            bandera_equipo = cargar_bandera(equipos[equipo_id], 25, 15)
+            tk.Label(marco_partido, text=f"Fecha {fecha}", font=(fuente, 9)).pack(side="left", padx=5)
+            tk.Label(marco_partido, image=bandera_rival).pack(side="left", padx=3)
+            tk.Label(marco_partido, text="vs", font=(fuente, 9, "bold")).pack(side="left", padx=3)
+            tk.Label(marco_partido, image=bandera_equipo).pack(side="left", padx=3)
 
         # Guardar referencias a las imágenes para evitar que se destruyan
         ventana_partidos.banderas = ventana_partidos.banderas if hasattr(ventana_partidos, 'banderas') else []
         ventana_partidos.banderas.append(bandera_equipo)
         ventana_partidos.banderas.append(bandera_rival)
-
 
 # Crear ventana principal
 root = tk.Tk()
@@ -113,47 +108,39 @@ canvas.pack(side="left", fill="both", expand=True)
 scrollbar.pack(side="right", fill="y")
 
 # Crear un contenedor para cada fecha en el frame desplazable
-banderas_referencias = {}  # Para mantener referencias de las banderas
 fila_actual = tk.Frame(scrollable_frame)
-fila_actual.pack(fill="x", padx=10, pady=10)
+fila_actual.pack(fill="x", padx=5, pady=5)  # Márgenes reducidos
 
+banderas_referencias = {}
 for i, (fecha, partidos) in enumerate(fixture.items(), 1):
-    # Crear nuevo contenedor de fila si se alcanza el límite por fila
     if (i - 1) % recuadros_por_fila == 0:
         fila_actual = tk.Frame(scrollable_frame)
-        fila_actual.pack(fill="x", padx=10, pady=10)
+        fila_actual.pack(fill="x", padx=5, pady=5)  # Márgenes reducidos
 
-    # Crear un marco para cada fecha
-    marco_fecha = tk.LabelFrame(fila_actual, text=f"Fecha {fecha}", padx=0, pady=0, width=tamaño_recuadro[0])
-    marco_fecha.pack(side="left", padx=20, pady=5)
+    marco_fecha = tk.LabelFrame(fila_actual, text=f"Fecha {fecha}", padx=3, pady=3, width=tamaño_recuadro[0])
+    marco_fecha.pack(side="left", padx=5, pady=5)
 
     for local, visitante in partidos:
         marco_partido = tk.Frame(marco_fecha, width=tamaño_recuadro[0], height=tamaño_recuadro[1])
-        marco_partido.pack_propagate(False)  # Evitar que el marco cambie de tamaño
-        marco_partido.pack(pady=5)
+        marco_partido.pack_propagate(False)
+        marco_partido.pack(pady=2)
 
-        # Bandera local a la izquierda
-        bandera_local = cargar_bandera(equipos[local])
+        bandera_local = cargar_bandera(equipos[local], 25, 15)
         etiqueta_local = tk.Label(marco_partido, image=bandera_local, cursor="hand2")
-        etiqueta_local.pack(side="left", padx=5)
+        etiqueta_local.pack(side="left", padx=3)
         etiqueta_local.bind("<Button-1>", lambda e, equipo_id=local: mostrar_partidos(equipo_id))
 
-        # Texto "vs" centrado
-        tk.Label(marco_partido, text="vs", font=(fuente, 12, "bold")).pack(side="left", padx=0)
+        tk.Label(marco_partido, text="vs", font=(fuente, 10, "bold")).pack(side="left", padx=3)
 
-        # Bandera visitante a la derecha
-        bandera_visitante = cargar_bandera(equipos[visitante])
+        bandera_visitante = cargar_bandera(equipos[visitante], 25, 15)
         etiqueta_visitante = tk.Label(marco_partido, image=bandera_visitante, cursor="hand2")
-        etiqueta_visitante.pack(side="left", padx=5)
+        etiqueta_visitante.pack(side="left", padx=3)
         etiqueta_visitante.bind("<Button-1>", lambda e, equipo_id=visitante: mostrar_partidos(equipo_id))
 
-        # Guardar referencias a las imágenes para evitar que se destruyan
         banderas_referencias[(local, visitante)] = (bandera_local, bandera_visitante)
 
-# Ajustar el tamaño inicial de la ventana para ver la primera fila completa
 root.update_idletasks()
 width = min(canvas.bbox("all")[2], root.winfo_screenwidth())
-root.geometry(f"{width}x800")
+root.geometry(f"{width}x600")  # Reducir altura inicial de la ventana
 
-# Iniciar la interfaz
 root.mainloop()

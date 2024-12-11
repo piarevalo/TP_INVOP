@@ -45,8 +45,8 @@ minimize size: sum <i, k> in I*K_odd: w[i, k];
 
 # Restricciones
 # Double round robin constraints.
-subto r1: forall <i, j> in I*I with i != j: (sum <k> in K with k <= n-1: (x[i, j, k] + x[j, i, k])) == 1;
-subto r2: forall <i, j> in I*I with i != j: (sum <k> in K with k > n-1: (x[i, j, k] + x[j, i, k])) == 1;
+#subto r1: forall <i, j> in I*I with i != j: (sum <k> in K with k <= n-1: (x[i, j, k] + x[j, i, k])) == 1;
+#subto r2: forall <i, j> in I*I with i != j: (sum <k> in K with k > n-1: (x[i, j, k] + x[j, i, k])) == 1;
 # Home-away balance with opponent
 subto r3: forall <i, j> in I*I with i != j: (sum <k> in K: x[i, j, k]) == 1;
 #Compactness.
@@ -98,7 +98,7 @@ subto fechas: forall <i, j> in I*I with i != j: f[i, j] == (sum <k> in K: k * x[
 #subto Inverted1: forall <i, j, k> in I*I*K with i != j and 1 <= k and k <= n-1: x[i, j, k] == x[j, i, 2*n-1-k];
 
 # Back-to-back Scheme
-#subto BackToBack: forall <i, j, k> in I*I*K_odd with i != j: x[i, j, k] == x[j, i, k+1]; 
+subto BackToBack: forall <i, j, k> in I*I*K_odd with i != j: x[i, j, k] == x[j, i, k+1]; 
 
 
 #intervalo MINMAX
