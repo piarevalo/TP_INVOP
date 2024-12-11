@@ -21,9 +21,11 @@ equipos = {
     10: 'venezuela'
 }
 
+ajuste = 0.75
+
 # Cantidad de recuadros por fila y tamaño de recuadro
 recuadros_por_fila = 6
-tamaño_recuadro = (150, 30)  # Ancho y alto de cada recuadro
+tamaño_recuadro = (int(170*ajuste), int(50*ajuste))  # Ancho y alto de cada recuadro
 fuente = "Calibri Light"
 
 partidos_por_equipo = {equipo: [] for equipo in equipos.keys()}
@@ -32,7 +34,7 @@ for fecha, partidos in fixture.items():
         partidos_por_equipo[local].append((fecha, "local", visitante))
         partidos_por_equipo[visitante].append((fecha, "visitante", local))
 
-def cargar_bandera(nombre_pais, w=40, h=25):
+def cargar_bandera(nombre_pais, w=int(50*ajuste), h=int(32*ajuste)):
     imagen = Image.open(f"flags/{nombre_pais}.png")
     imagen = imagen.resize((w, h), Image.LANCZOS)
     return ImageTk.PhotoImage(imagen)
@@ -121,8 +123,8 @@ for i, (fecha, partidos) in enumerate(fixture.items(), 1):
         fila_actual.pack(fill="x", padx=10, pady=10)
 
     # Crear un marco para cada fecha
-    marco_fecha = tk.LabelFrame(fila_actual, text=f"Fecha {fecha}", padx=5, pady=5, width=tamaño_recuadro[0])
-    marco_fecha.pack(side="left", padx=10, pady=10)
+    marco_fecha = tk.LabelFrame(fila_actual, text=f"Fecha {fecha}", padx=0, pady=0, width=tamaño_recuadro[0])
+    marco_fecha.pack(side="left", padx=20, pady=5)
 
     for local, visitante in partidos:
         marco_partido = tk.Frame(marco_fecha, width=tamaño_recuadro[0], height=tamaño_recuadro[1])
@@ -136,7 +138,7 @@ for i, (fecha, partidos) in enumerate(fixture.items(), 1):
         etiqueta_local.bind("<Button-1>", lambda e, equipo_id=local: mostrar_partidos(equipo_id))
 
         # Texto "vs" centrado
-        tk.Label(marco_partido, text="vs", font=(fuente, 12, "bold")).pack(side="left", padx=10)
+        tk.Label(marco_partido, text="vs", font=(fuente, 12, "bold")).pack(side="left", padx=0)
 
         # Bandera visitante a la derecha
         bandera_visitante = cargar_bandera(equipos[visitante])
