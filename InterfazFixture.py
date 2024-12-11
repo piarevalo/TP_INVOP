@@ -2,10 +2,11 @@ import tkinter as tk
 from PIL import Image, ImageTk
 import numpy as np
 from ArmadoFixture import fixture
-
+from chequeos import esquema
 
 #Funcion para pasarle un fixture por consola (Estilo SCIP)
 fixture = fixture()
+esquema(fixture)
 
 # Diccionario de equipos
 equipos = {
@@ -21,7 +22,7 @@ equipos = {
     10: 'venezuela'
 }
 
-ajuste = 0.75
+ajuste = 0.5
 
 # Cantidad de recuadros por fila y tamaño de recuadro
 recuadros_por_fila = 6

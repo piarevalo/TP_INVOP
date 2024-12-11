@@ -2,7 +2,7 @@
 #read "C:\Users\bauti\OneDrive\Escritorio\UBA\Ciencias de Datos\Materias\2024\2C\Inv. Operativa\TPFinal\Eliminatorias.zpl"
 
 # Parametros:
-param n := 6;
+param n := 10;
 
 #MINMAX
 param M := 3*n;
@@ -54,9 +54,9 @@ subto r4: forall <j, k> in I*K: (sum <i> in I with i != j: (x[i, j, k] + x[j, i,
 
 
 #Top team constraints.
-subto r100: 
-    forall <i, k, j> in I*K*I_s with i != 1 and i != 2 and k != 2*(n-1): 
-        (sum <j> in I_s: x[i, j, k]  + x[j, i, k] + x[i, j, k+1] + x[j, i, k+1]) <= 1;
+#subto r100: 
+#    forall <i, k, j> in I*K*I_s with i != 1 and i != 2 and k != 2*(n-1): 
+#        (sum <j> in I_s: x[i, j, k]  + x[j, i, k] + x[i, j, k+1] + x[j, i, k+1]) <= 1;
 
 # 3..N son todos los equipos menos arg y brasil
 # 1..2*(n-1) son todas las fechas menos la ultima
@@ -86,11 +86,11 @@ subto fechas: forall <i, j> in I*I with i != j: f[i, j] == (sum <k> in K: k * x[
 #Esquemas:
 
 # Mirrored scheme
-#subto mirrored: forall <i, j, k> in I*I*K with i != j and 1 <= k and k <= n-1: x[i, j, k] == x[j, i, k+n-1];
+subto mirrored: forall <i, j, k> in I*I*K with i != j and 1 <= k and k <= n-1: x[i, j, k] == x[j, i, k+n-1];
 
 # French scheme.
-subto French1: forall <i, j, k> in I*I*K with i != j: x[i, j, 1] == x[j, i, 2*n-2];
-subto French2: forall <i, j, k> in I*I*K with i !=j and 2 <= k and k <= n-1: x[i, j, k] == x[j, i, k+n-2];
+#subto French1: forall <i, j, k> in I*I*K with i != j: x[i, j, 1] == x[j, i, 2*n-2];
+#subto French2: forall <i, j, k> in I*I*K with i !=j and 2 <= k and k <= n-1: x[i, j, k] == x[j, i, k+n-2];
 
 # English Scheme 
 #subto English1: forall <i, j, k> in I*I*K with i != j and 2 <= k <= n-2: x[i, j, n-1] == x[j, i, n] 
