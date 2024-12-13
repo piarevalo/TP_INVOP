@@ -107,14 +107,17 @@ canvas.configure(yscrollcommand=scrollbar.set)
 canvas.pack(side="left", fill="both", expand=True)
 scrollbar.pack(side="right", fill="y")
 
-# Crear un contenedor para cada fecha en el frame desplazable
-fila_actual = tk.Frame(scrollable_frame)
+# Crear un marco principal con borde negro
+marco_principal = tk.Frame(scrollable_frame, highlightbackground="black", highlightthickness=2, padx=5, pady=5)
+marco_principal.pack(padx=10, pady=10)  # Márgenes para separar el borde del resto de la ventana
+
+fila_actual = tk.Frame(marco_principal)
 fila_actual.pack(fill="x", padx=5, pady=5)  # Márgenes reducidos
 
 banderas_referencias = {}
 for i, (fecha, partidos) in enumerate(fixture.items(), 1):
     if (i - 1) % recuadros_por_fila == 0:
-        fila_actual = tk.Frame(scrollable_frame)
+        fila_actual = tk.Frame(marco_principal)
         fila_actual.pack(fill="x", padx=5, pady=5)  # Márgenes reducidos
 
     marco_fecha = tk.LabelFrame(fila_actual, text=f"Fecha {fecha}", padx=3, pady=3, width=tamaño_recuadro[0])
